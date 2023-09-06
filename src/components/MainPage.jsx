@@ -15,8 +15,8 @@ export default function MainPage() {
 	useEffect(() => {
 		axios
 			.get('https://news-project-baar.onrender.com/api/articles/')
-			.then((response) => {
-				setArticles(response.data.articles);
+			.then(({ data }) => {
+				setArticles(data.articles);
 				setLoading(false);
 			})
 			.catch((error) => {
