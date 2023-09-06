@@ -1,6 +1,4 @@
 
-
-
 export default function Pagination({ articlesPerPage, totalArticles, onPageChange }) {
 	const pageNumbers = [];
 
