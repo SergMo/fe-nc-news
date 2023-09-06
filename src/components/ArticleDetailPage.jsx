@@ -2,12 +2,11 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ArticleCard from './ArticleCard';
-import CommentCard from './CommentCard';
+import CommentsList from './CommentsList';
 
 
 export default function ArticleDetailPage() {
 	const [article, setArticle] = useState({});
-	const [comments, setComments] = useState([])
 	const [loading, setLoading] = useState(true)
 	const { article_id } = useParams();
 
@@ -22,15 +21,6 @@ export default function ArticleDetailPage() {
 				console.error('Error fetching article: ', error);
 				setLoading(false);
 			});
-
-		axios
-			.get(`https://news-project-baar.onrender.com/api/articles/${article_id}/comments`)
-			.then(({ data }) => {
-				setComments(data.comments)
-			})
-			.catch((error) => {
-				console.error('Error fetching comments: ', error);
-			});
 	}, [article_id]);
 
 	return (
@@ -41,10 +31,7 @@ export default function ArticleDetailPage() {
 			) : (
 				<div>
 					<ArticleCard article={article} />
-					<h2>Comments</h2>
-					{comments.map((comment) => (
-						<CommentCard key={comment.comment_id} comment={comment} />
-					))}
+					<CommentsList articleId={article_id} />
 				</div>
 
 			)}
