@@ -17,8 +17,8 @@ export default function ArticleDetailPage() {
 				setArticle(data.article);
 				setLoading(false);
 			})
-			.catch((error) => {
-				console.error('Error fetching article: ', error);
+			.catch((err) => {
+				console.error('Error fetching article: ', err);
 				setLoading(false);
 			});
 	}, [article_id]);

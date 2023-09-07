@@ -15,8 +15,8 @@ export default function CommentsList({ articleId }) {
 				setComments(data.comments);
 				setLoading(false);
 			})
-			.catch((error) => {
-				console.error('Error fetching comments: ', error);
+			.catch((err) => {
+				console.error('Error fetching comments: ', err);
 				setLoading(false);
 			})
 	}, [articleId]);

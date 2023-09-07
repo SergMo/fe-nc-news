@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 export default function MainPage() {
 	const [articles, setArticles] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [isError, setIsError] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const articlesPerPage = 10;
 
@@ -19,9 +19,9 @@ export default function MainPage() {
 				setArticles(data.articles);
 				setLoading(false);
 			})
-			.catch((error) => {
-				console.error('Error fetching article:', error);
-				setError(error);
+			.catch((err) => {
+				console.error('Error fetching article:', err);
+				setIsError(true);
 				setLoading(false);
 			});
 	}, []);
@@ -38,7 +38,7 @@ export default function MainPage() {
 			<h1>Main Page</h1>
 			{loading ? (
 				<p>Loading...</p>
-			) : error ? (
+			) : isError ? (
 				<p>Error loading articles. Please try again later.</p>
 			) : (
 				<div>
