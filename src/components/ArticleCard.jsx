@@ -1,10 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article, showVoteButtons }) {
 	const [votes, setVotes] = useState(article.votes);
 	const [isError, setIsError] = useState(false);
-	console.log(votes);
 
 	const handleVote = (voteChange) => {
 		setVotes(votes + voteChange); // Optimistic change in votes
@@ -13,7 +12,6 @@ export default function ArticleCard({ article }) {
 				inc_votes: voteChange
 			})
 			.then(({ data }) => {
-				console.log(data.article.votes);
 				setVotes(data.article.votes);
 			})
 			.catch((err) => {
@@ -30,9 +28,14 @@ export default function ArticleCard({ article }) {
 			<p>Topic: {article.topic}</p>
 			<p>Date: {article.created_at}</p>
 			<img src={article.article_img_url} alt={article.title} />
-			<p>Votes !!!: {votes}</p>
-			<button onClick={() => { handleVote(1) }}>Upvote</button>
-			<button onClick={() => { handleVote(-1) }}>Downvote</button>
+			<p>Votes: {votes}</p>
+
+			{showVoteButtons && (
+				<div>
+					<button onClick={() => { handleVote(1) }}>Upvote</button>
+					<button onClick={() => { handleVote(-1) }}>Downvote</button>
+				</div>
+			)}
 			{isError && <p>{isError}</p>}
 		</div>
 	)

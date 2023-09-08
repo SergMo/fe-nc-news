@@ -3,8 +3,7 @@ import axios from 'axios';
 import CommentCard from './CommentCard';
 
 
-
-export default function CommentsList({ articleId }) {
+export default function CommentList({ articleId }) {
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -18,7 +17,7 @@ export default function CommentsList({ articleId }) {
 			.catch((err) => {
 				console.error('Error fetching comments: ', err);
 				setLoading(false);
-			})
+			});
 	}, [articleId]);
 
 	return (
