@@ -44,9 +44,7 @@ export default function MainPage() {
 				<div>
 					{currentArticles.map((article) => (
 						<Link key={article.article_id} to={`/articles/${article.article_id}`}>
-							<ArticleCard
-								article={article}
-							/>
+							<ArticleCard article={article} showVoteButtons={false} />
 						</Link>
 					))}
 				</div>
@@ -56,7 +54,6 @@ export default function MainPage() {
 				totalArticles={articles.length}
 				onPageChange={handlePageChange}
 			/>
-
 		</div>
 	)
 }
