@@ -7,9 +7,19 @@ import CommentForm from './CommentForm';
 
 export default function ArticleDetailPage() {
 	const [article, setArticle] = useState({});
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(true);
+	// const [loadingArticle, setLoadingArticle] = useState(true);
+	// const [loadingComments, setLoadingComments] = useState(true);
 	const [error, setError] = useState(null);
 	const { article_id } = useParams();
+	const [comments, setComments] = useState([]);
+	const [newComment, setNewComment] = useState(null);
+
+	useEffect(() => {
+		if (newComment) {
+			setComments(prevComments => [...prevComments, newComment]);
+		}
+	}, [newComment]);
 
 	useEffect(() => {
 
@@ -24,7 +34,19 @@ export default function ArticleDetailPage() {
 				setError('Failed');
 				setLoading(false);
 			});
+
+		axios
+			.get(`https://news-project-baar.onrender.com/api/articles/${article_id}/comments`)
+			.then(({ data }) => {
+				setComments(data.comments);
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.error('Error fetching comments: ', err);
+				setLoading(false);
+			});
 	}, [article_id]);
+
 
 	const handleNewComment = (username, commentBody) => {
 		console.log("Handling new comment...");
@@ -35,12 +57,15 @@ export default function ArticleDetailPage() {
 			})
 			.then(({ data }) => {
 				console.log("New comment added:", data.comment);
+				setNewComment(data.comment)
+				// setComments(prevComments => [...prevComments, data.comment]);
 			})
 			.catch((err) => {
 				console.error('Error submitting comment: ', err);
 				console.log('Error response:', err.response);
 			});
 	}
+
 
 	return (
 		<div className="article-detail-page">
@@ -53,7 +78,7 @@ export default function ArticleDetailPage() {
 				<div>
 					<ArticleCard article={article} showVoteButtons={true} />
 					<CommentForm onSubmit={handleNewComment} />
-					<CommentList articleId={article_id} />
+					<CommentList articleId={article_id} comments={comments} />
 				</div>
 			)}
 		</div>
